@@ -7,13 +7,13 @@ In this homework, you are tasked to develop a regular expression matcher using H
 ## Syntax
 Consider the following EBNF grammar that describes the valid syntax of a regular expression.
 
-$$
+```math
 \begin{array}{rccl} 
 {\tt (RegularExpression)} & r & ::= & r+r \mid r.r \mid r^* \mid \epsilon \mid l \mid \phi \\ 
 {\tt (Letter)} & l & ::= & a \mid b \mid ... \\ 
 {\tt (Word)} & w & ::= & lw \mid \epsilon
 \end{array}
-$$
+```
 
 where 
 
@@ -34,7 +34,7 @@ Every regular expression $r$ has a meaning, i.e. it denotes a set of strings tha
 
 Formally speaking, the meaning of a regular expression can be defined as ${\cal L}(r)$
 
-$$
+```math
 \begin{array}{rcl}
 {\cal L}(\phi) & = & \{ \} \\ 
 {\cal L}(\epsilon) & = & \{ \epsilon \} \\ 
@@ -43,7 +43,7 @@ $$
 {\cal L}(r_1.r_2) & = & \{ w_1w_2 \mid  w_1 \in {\cal L}(r_1) \wedge w_2 \in {\cal L}(r_2)\} \\ 
 {\cal L}(r^*) & = & \{ w_1...w_n \mid w_1 \in {\cal L}(r) \wedge ... \wedge w_n \in {\cal L}(r) \}
 \end{array}
-$$
+```
 
 
 ## Word matching problem
@@ -54,29 +54,29 @@ One way to solve the word match problem is to use Brzozoski's derivative operati
 
 The derivative of a regular expression $r$ with respect to a letter $l$ is a regular expression defined as follows
 
-$$
+```math
 \begin{array}{rcl}
 deriv(\phi, l) & = & \phi \\ \\
 deriv(\epsilon, l) & = & \phi \\ \\
-deriv(l_1, l_2) & = & \left [
+deriv(l_1, l_2) & = & \left \{
     \begin{array}{ll}
     \epsilon & {if\ l_1 = l_2} \\ 
     \phi & {otherwise}
     \end{array}
     \right . \\ \\
 deriv(r_1+r_2, l) & = & deriv(r_1, l) + deriv(r_2, l) \\ \\
-deriv(r_1.r_2, l) & = & \left [ 
+deriv(r_1.r_2, l) & = & \left \{ 
     \begin{array}{ll}
     deriv(r_1,l).r_2 + deriv(r_2,l) & {if\ eps(r_1)} \\
     deriv(r_1,l).r_2 & {otherwise}
     \end{array} \right . \\ \\
-deriv(r^{ * }, l) & = & deriv(r,l).r^{*}
+deriv(r^*, l) & = & deriv(r,l).r^*
 \end{array}
-$$
+```
 
 Where $eps(r)$ tests whether $r$ possesses the empty word $\epsilon$.
 
-$$
+```math
 \begin{array}{rcl}
 eps(r_1+r_2) & = & eps(r_1)\ \vee eps(r_2) \\
 eps(r_1.r_2) & = & eps(r_1)\ \wedge eps(r_2) \\ 
@@ -85,18 +85,18 @@ eps(\epsilon) & = & true \\
 eps(l) & = & false \\ 
 eps(\phi) & = & false 
 \end{array}
-$$
+```
 
 We can define $match(w,r)$ in terms of $deriv(\cdot,\cdot)$. 
 
-$$
-match(w,r) = \left [
+```math
+match(w,r) = \left \{
     \begin{array}{ll}
     eps(r) & {if\ w = \epsilon} \\ 
     match(w', deriv(r,l)) & {if\ w = lw'}
     \end{array} 
     \right .
-$$
+```
 
 Your task is to implement the $match$, $eps$ and $deriv$ in Haskell.
 
