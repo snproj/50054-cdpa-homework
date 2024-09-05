@@ -58,7 +58,7 @@ $$
 \begin{array}{rcl}
 deriv(\phi, l) & = & \phi \\ \\
 deriv(\epsilon, l) & = & \phi \\ \\
-deriv(l_1, l_2) & = & \left [ 
+deriv(l_1, l_2) & = & \left [
     \begin{array}{ll}
     \epsilon & {if\ l_1 = l_2} \\ 
     \phi & {otherwise}
@@ -69,8 +69,8 @@ deriv(r_1.r_2, l) & = & \left [
     \begin{array}{ll}
     deriv(r_1,l).r_2 + deriv(r_2,l) & {if\ eps(r_1)} \\
     deriv(r_1,l).r_2 & {otherwise}
-    \end{array} \right . \\ \\ 
-deriv(r^*, l) & = & deriv(r,l).r^*
+    \end{array} \right . \\ \\
+deriv(r^{ * }, l) & = & deriv(r,l).r^{*}
 \end{array}
 $$
 
