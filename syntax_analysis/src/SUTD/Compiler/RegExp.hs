@@ -18,63 +18,30 @@ data RE = Choice RE RE
 
 -- task 0
 eps :: RE -> Bool
--- eps = undefined -- fixme 
-eps (Choice r1 r2) = eps r1 || eps r2
-eps (Seq r1 r2)    = eps r1 && eps r2
-eps (Star _)       = True
-eps Epsilon        = True
-eps (Letter _)     = False
-eps Phi            = False
+eps = undefined -- fixme 
 
 -- task 0
 deriv :: RE -> Char -> RE
--- deriv = undefined -- fixme 
-deriv (Choice r1 r2) l = Choice (deriv r1 l) (deriv r2 l)
-deriv (Seq r1 r2) l
-    | eps r1           = Choice (Seq (deriv r1 l) r2) (deriv r2 l)
-    | otherwise        = Seq (deriv r1 l) r2
-deriv (Star r1) l      = Seq (deriv r1 l) (Star r1)
-deriv Epsilon  l       = Phi
-deriv (Letter l') l
-    | l' == l          = Epsilon
-    | otherwise        = Phi
-deriv Phi l            = Phi
+deriv = undefined -- fixme 
 
 -- task 0
 wordMatch :: [Char] -> RE -> Bool
--- wordMatch = undefined -- fixme
-wordMatch [] r    = eps r
-wordMatch (l:w) r = wordMatch w (deriv r l)
+wordMatch = undefined -- fixme
 
 -- task 1
 mkSimpleSM :: RE -> StateMachine RE Char 
 mkSimpleSM r = StateMachine r stepImpl eps  
     where
-        -- stepImp = undefined -- fixme
-        stepImpl t l = case deriv t l of
-            Phi -> Nothing
-            s   -> Just (StateMachine s stepImpl eps)
-
+        stepImpl = undefined -- fixme
 
 
 -- task 2.1
 isPhi :: RE -> Bool
--- isPhi = undefined -- fixme 
-isPhi (Choice r1 r2) = isPhi r1 && isPhi r2
-isPhi (Seq r1 r2)    = isPhi r1 || isPhi r2
-isPhi (Star r1)      = False
-isPhi (Letter _)     = False
-isPhi Epsilon        = False
-isPhi Phi            = True
+isPhi = undefined -- fixme 
 
 
 isEps :: RE -> Bool
--- isEps = undefined -- fixme 
-isEps (Choice r1 r2) = isEps r1 || isEps r2
-isEps (Seq r1 r2)    = isEps r1 && isEps r2
-isEps (Star r1)      = isPhi r1 || isEps r1
-isEps Epsilon        = True
-isEps _              = False
+isEps = undefined -- fixme 
 
 
 -- task 2.2
@@ -97,17 +64,7 @@ instance Ord RE where
             EQ -> compare r2 r4
             o  -> o
     compare (Choice _ _) _                = LT
-    compare (Seq _ _) Phi                 = GT -- TODO: complete the missing cases
-    compare (Seq _ _) Epsilon             = GT
-    compare (Seq _ _) (Letter _)          = GT
-    compare (Seq _ _) (Choice _ _)        = GT
-    compare (Seq r1 r2) (Seq r3 r4)       =
-        case compare r1 r3 of
-            EQ -> compare r2 r4
-            o  -> o
-    compare (Seq _ _) _                   = LT
-    compare (Star r1) (Star r2)           = compare r1 r2
-    compare (Star _) _                    = GT
+    compare _ _ = undefined  -- TODO: complete the missing cases
 
 
 -- given
@@ -125,11 +82,7 @@ normChoice r = [normSeq r]
 
 -- task 2.3 
 rmdup :: [RE] -> [RE]
--- rmdup = undefined -- fix me 
-rmdup []  = []
-rmdup [r] = [r]
-rmdup (r1:r2:rs) | r1 == r2  = rmdup (r2:rs)
-                 | otherwise = r1:(rmdup (r2:rs))
+rmdup = undefined -- fix me 
 
 
 -- given 
@@ -151,18 +104,8 @@ simp1 (Choice r1 r2)
     | isPhi r1             = simp1 r2
     | isPhi r2             = simp1 r1
     | otherwise            = norm (Choice (simp1 r1) (simp1 r2))
--- simp1 (Seq r1 r2)          = undefined -- fix me
-simp1 (Seq r1 r2) 
-    | isPhi r1 || isPhi r2 = Phi 
-    | isEps r1 && isEps r2 = Epsilon
-    | isEps r1             = simp1 r2 
-    | isEps r2             = simp1 r1
-    | otherwise            = norm (Seq (simp1 r1) (simp1 r2))
--- simp1 (Star r)             = undefined -- fix me
-simp1 (Star r)
-    | isPhi r              = Epsilon
-    | isEps r              = Epsilon
-    | otherwise            = Star (simp1 r)
+simp1 (Seq r1 r2)          = undefined -- fix me
+simp1 (Star r)             = undefined -- fix me
 simp1 r                    = r
 
 simp :: RE -> RE 
@@ -201,13 +144,11 @@ compile :: RE -> (DM.Map (Int, Char) Int, DS.Set Int)
 compile r = 
     let allSymbs   = sigma r 
         delta      = build r allSymbs
-        -- allDests = undefined -- fixme, extract all destination from the delta 
-        allDests = DS.map (\(r,t,d) -> d) delta 
+        allDests = undefined -- fixme, extract all destination from the delta 
         allDestsExceptR = DS.delete r allDests
         -- mapping re to int ids
         table      = DM.fromList (zip (r:(DS.toList allDestsExceptR)) [0..])
-        -- delta_num  = undefined -- fixme, conver the states found in delta into integerss
-        delta_num  = DM.fromList (map (\(s,t,d) -> ((table DM.! s, t), table DM.! d)) (DS.toList delta))
+        delta_num  = undefined -- fixme, conver the states found in delta into integerss
         final_num  = DS.fromList (map snd (DM.toList (DM.filterWithKey (\t i -> eps t) table))) 
     in (delta_num, final_num)
 
