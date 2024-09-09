@@ -3,7 +3,7 @@
 # Parsing Regular expression 
 In this homework, you are tasked to develop a lexer and a parser for a regular expression. 
 
-Besides the Scala code for Task 3, you should submit a report which should include detail steps of solving Task 1 and Task 2.
+Besides the Haskell code for Task 3, you should submit a report which should include detail steps of solving Task 1 and Task 2.
 
 ## Task 0
 
