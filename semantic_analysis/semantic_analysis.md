@@ -27,39 +27,33 @@ Recall the Small Step Operational Semantics for Lambda Calculus are defined as f
 ```math
 \begin{array}{rc}
 {\tt (NOR)} & \begin{array}{c}
-                t_1 \longrightarrow t_1' \\ 
-                \hline
+                t_1 \longrightarrow t_1' \\ \hline
                 t_1\ t_2 \longrightarrow t_1'\ t_2
                 \end{array}  \\ \\
 {\tt (\beta\ reduction)} & (\lambda x.t_1)\ t_2 \longrightarrow [t_2/x] t_1
 \\ \\
 {\tt (ifI)} & 
   \begin{array}{c} 
-    t_1 \longrightarrow t_1'  \\
-    \hline
+    t_1 \longrightarrow t_1'  \\ \hline
     if\ t_1\ then\ t_2\ else\ t_3 \longrightarrow if\ t_1'\ then\ t_2\ else\ t_3 
   \end{array} \\  \\
 {\tt (ifT)} &  if\ true\ then\ t_2\ else\ t_3 \longrightarrow t_2 \\ \\
 {\tt (ifF)} &  if\ false\ then\ t_2\ else\ t_3 \longrightarrow t_3  \\ \\
 {\tt (OpI1)} & \begin{array}{c} 
-                t_1 \longrightarrow t_1' \\ 
-                \hline 
+                t_1 \longrightarrow t_1' \\ \hline 
                 t_1\ op\ t_2\  \longrightarrow t_1'\ op\ t_2 
                 \end{array} \\ \\
 {\tt (OpI2)} & \begin{array}{c} 
-                t_2 \longrightarrow t_2' \\ 
-                \hline 
+                t_2 \longrightarrow t_2' \\ \hline 
                 c_1\ op\ t_2\  \longrightarrow c_1\ op\ t_2' 
                 \end{array} \\ \\
 {\tt (OpC)} &  \begin{array}{c} 
-                invoke\ low\ level\ call\  op(c_1, c_2) = c_3 \\ 
-                \hline  
+                invoke\ low\ level\ call\  op(c_1, c_2) = c_3 \\ \hline  
                 c_1\ op\ c_2\  \longrightarrow c_3 
                 \end{array} \\ \\
 {\tt (Let)} & let\ x=t_1\ in\ t_2 \longrightarrow [t_1/x]t_2 \\ \\
 {\tt (Fix1)} & \begin{array}{c}
-               t \longrightarrow t'\\
-               \hline
+               t \longrightarrow t' \\ \hline
                fix\ t \longrightarrow fix\ t'
                \end{array}  \\ \\ 
 {\tt (Fix2)} &  fix\ \lambda f.t \longrightarrow \lbrack (fix\ \lambda f.t)/f \rbrack t
