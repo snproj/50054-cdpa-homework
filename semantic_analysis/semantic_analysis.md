@@ -8,7 +8,7 @@ In this home work, you are tasked to implement the small step operational semant
 
 ## Syntax and Meta Syntax
 
-$$
+```math
 \begin{array}{rccl}
  {\tt (Lambda\ Terms)} & t & ::= & x \mid \lambda x.t \mid t\ t \mid let\ x =\ t\ in\ t \mid  if\ t\ then\ t\ else\ t \mid t\ op\ t \mid c \mid fix\ t \\
  {\tt (Builtin\ Operators)} & op & ::= & + \mid - \mid * \mid / \mid\ == \\
@@ -18,13 +18,13 @@ $$
  {\tt (Type\ Environments)} & \Gamma & \subseteq & (x \times \sigma ) \\
  {\tt (Type\ Substitution)} & \Psi & ::= & [T/\alpha] \mid [] \mid \Psi \circ \Psi 
 \end{array}
-$$
+```
 
 ## Task 1 - Small Step Operational Semantics
 
 Recall the Small Step Operational Semantics for Lambda Calculus are defined as follows,
 
-$$
+```math
 \begin{array}{rc}
 {\tt (NOR)} & \begin{array}{c}
                 t_1 \longrightarrow t_1' \\ 
@@ -64,14 +64,14 @@ $$
                \end{array}  \\ \\ 
 {\tt (Fix2)} &  fix\ \lambda f.t \longrightarrow \lbrack (fix\ \lambda f.t)/f \rbrack t
 \end{array}
-$$
+```
 
 Rule ${\tt (Fix1)}$ evaluates the argument of $fix$ operator by a step, until it becomes a lambda abstraction.
 Rule ${\tt (Fix2)}$ "unfold" the fixed point function $\lambda f.t$, by subsituting occurences of $f$ in $t$ by $fix\ \lambda f.t$.
 
 and free variable extrction function
 
-$$
+```math
 \begin{array}{rcl}
 fv(x) & = & \{x\}\\
 fv(\lambda x.t) & = & fv(t) - \{x\} \\ 
@@ -82,11 +82,11 @@ fv(c) & = & \{\} \\
 fv(t_1\ op\ t_2) & = & fv(t_1) \cup fv(t_2) \\ 
 fv(fix\ t) & = & fv(t)
 \end{array}
-$$
+```
 
 and substitution operation
 
-$$
+```math
 \begin{array}{rcll}
  \lbrack t_1 / x \rbrack c & = & c \\ 
  \lbrack t_1 / x \rbrack x & = & t_1 \\
@@ -100,14 +100,14 @@ $$
   \lbrack t_1 / x \rbrack t_2\ op\ t_3 & = & (\lbrack t_1 / x \rbrack t_2)\ op\ (\lbrack t_1 / x \rbrack t_3) \\ 
   \lbrack t_1 / x \rbrack (fix\ t_2) & = & fix\ \lbrack t_1 / x \rbrack t_2 &  
 \end{array}
-$$
+```
 
 Some of the operations (such as substitution),  which we have implemented in Big Step Evaluation operational semantics,  can be reused in this task. We moved them into a separate package `Util.hs`.
 
 Small Step operational semantics are implemented in `SmallStepEval.hs`. Your task is to complete the missing cases in 
 `evalOneStep`.
 
-When you are done, you should be able to pass all the test cases in `SmallStepEvalSpec.hs
+When you are done, you should be able to pass all the test cases in `SmallStepEvalSpec.hs`
 
 
 ## Task 2 - Unification
@@ -116,7 +116,7 @@ Recall the type inference algorithm for Lambda Calculus *Algorithm W* requires t
 
 The type variable function $ftv()$ can be defined similar to the $fv()$ function we introduced for lambda caculus. 
 
-$$
+```math
 \begin{array}{rcl}
 ftv(\alpha) & = & \{\alpha \} \\ 
 ftv(int) & = & \{ \} \\
@@ -124,20 +124,20 @@ ftv(bool) & = & \{ \} \\
 ftv(T_1 \rightarrow T_2) & = & ftv(T_1) \cup ftv(T_2) \\
 ftv(\forall \alpha.\sigma) & = & ftv(\sigma) - \{ \alpha \} 
 \end{array}
-$$
+```
 
 $ftv$ is also overloaded to extra free type variables from a type environment.
 
-$$
+```math
 \begin{array}{rcl}
 ftv(\Gamma) & = & \{ \alpha \mid (x,\sigma) \in \Gamma \wedge \alpha \in ftv(\sigma) \}
 \end{array}
-$$
+```
 
 
 The application of a type substitution can be defined as 
 
-$$
+```math
 \begin{array}{rcll}
 [] \sigma & = & \sigma \\ 
 [T/\alpha] int & = & int \\
@@ -149,26 +149,28 @@ $$
 (\Psi_1 \circ \Psi_2)\sigma & = & \Psi_1 (\Psi_2 (\sigma))
 \Psi(\Gamma)  &= & \{ (x,\Psi(\sigma)) \mid (x,\sigma) \in \Gamma \}
 \end{array}
-$$
+```
 
 Type Scheme Instantiation
-$$
+
+```math
 \begin{array}{rcl}
 inst(T) & = & T \\
 inst(\forall \alpha.\sigma) & = & \lbrack\beta_1/\alpha\rbrack(inst(\sigma))\ where\ \beta_1=newvar \\
 \end{array}
-$$
+```
 
 Type generalization operation
 
-$$
+```math
 \begin{array}{rcl}
 gen(\Gamma, T) & = & \forall \overline{\alpha}.T\ \ where\ \overline{\alpha} = ftv(T) - ftv(\Gamma)
 \end{array}
-$$
+```
 
 Type Unification
-$$
+
+```math
 \begin{array}{rcl}
 mgu(\alpha, T) & = & [T/\alpha] \\ 
 mgu(T, \alpha) & = & [T/\alpha] \\ 
@@ -178,7 +180,7 @@ mgu(T_1 \rightarrow T_2 , T_3\rightarrow T_4) & = & let\ \Psi_1 = mgu(T_1, T_3)\
 &  & in\ \ let\ \Psi_2 = mgu(\Psi_1(T_2), \Psi_1(T_4)) \\
 &  & \ \ \ \ \ in\ \Psi_2 \circ \Psi_1
 \end{array}
-$$
+```
 
 Most of these helper functions have been implemented and given, except for $mgu$. Your task is to complete the `mgu` function implementation in `AlgorithmW.hs`.
 
@@ -188,7 +190,8 @@ When you are done, your code should be able to pass the following test cases wit
 ## Task 3 - Algorithm W
 
 Recall the Algorthm W is defined as follows,
-$$
+
+```math
 \begin{array}{rc}
 {\tt (wInt)} & \begin{array}{c}
                 c\ {\tt is\ an\ integer} 
@@ -248,13 +251,13 @@ $$
                 \Gamma, if\ t_1\ then\ t_2\ else\ t_3 \vDash \Psi_4(\Psi_3(T_2)),  \Psi_4 \circ \Psi_3 \circ \Psi_2 \circ \Psi_1'
               \end{array}
 \end{array}
-$$
+```
 
 
 Note that in our implementation, $fix\ t$ is parsed as a special term `FixTerm(t)` instead of `AppTerm(fix, t)`. We adopt the above algorithm 
 by fusing $(\tt wFix)$ and $(\tt wApp)$ rules into the following single rule, and removing  the $(\tt wFix)$ rule from our implementation.
 
-$$
+```math
 \begin{array}{rcl}
 {\tt (wFixApp)} & \begin{array}{c}
                 (fix,\forall \alpha. (\alpha\rightarrow \alpha)\rightarrow \alpha) \in \Gamma \\ 
@@ -265,7 +268,7 @@ $$
                 \Gamma, (fix\ t_2) \vDash \Psi_3(\alpha_3), \Psi_3 \circ \Psi_2 \circ \Psi_1 
                \end{array} 
 \end{array}
-$$
+```
 
 Your task is to complete the implementation of `typeInf` in `AlgorithmW.hs`.
 
