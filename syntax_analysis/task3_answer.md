@@ -28,12 +28,39 @@ expanded into
 
 ### Nullability
 
+$null(R) = $
+
+$null(T) = $
+
+$null(U) = $
+
+$null(S) = $
+
+$null(C) = $
 
 ### First
 
+$first(R) = $
+
+$first(T) = $
+
+$first(U) = $
+
+$first(S) = $
+
+$first(C) = $
 
 ### Follow
 
+$follow(R) = $
+
+$follow(T) = $
+
+$follow(U) = $
+
+$follow(S) = $
+
+$follow(C) = $
 
 ### Predictive Parsing Table
 
