@@ -136,7 +136,7 @@ rmdup = go []
             | null rs = reverse (r:finished) -- ?????
             | r == head rs = go finished rs
             | otherwise = go (r:finished) rs
-        -- go finished [] = finished
+        go finished [] = finished
 
 
 -- given 

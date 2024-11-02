@@ -294,7 +294,16 @@ mgu :: Type -> Type -> StateResult StateInfo TypeSubst
 -- task 2 todo: 
 mgu (VarTy alpha) ty2  = return (Single alpha ty2)
 mgu ty1 (VarTy alpha)  = return (Single alpha ty1)
-mgu ty1 ty2            = undefined -- fixme 
+mgu IntTy IntTy        = return Empty
+mgu BoolTy BoolTy      = return Empty
+mgu (FunTy ty1 ty2) (FunTy ty3 ty4) = do
+    psi1 <- mgu ty1 ty3
+    x1 <- appTySubst psi1 ty2
+    x2 <- appTySubst psi1 ty4
+    psi2 <- mgu x1 x2
+    return (compo psi2 psi1)
+mgu _ _ = undefined
+
 
 
 -- | mgu(T1,T2,T3) = let psi1 = mgu(T1,T2)
